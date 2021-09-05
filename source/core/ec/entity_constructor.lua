@@ -25,7 +25,7 @@ return function(type_name,t)
         }
         
         entity.addComponent = function(self,component,...)
-            if type(component) == "table" then
+            if component.__is_constructor__ == true then
                 component = component(...)
             end
         
@@ -33,7 +33,7 @@ return function(type_name,t)
             if self.components[name] ~= nil then
                 return
             end
-        
+
             for i,cname in ipairs(callback_list) do
                 if component[cname] then
                     local cb_channel =  self._cb_channels[cname]

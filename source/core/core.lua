@@ -1,5 +1,5 @@
 core = {
-    Resources = require"source/core/resources/resources",
+    Resources = require"source/core/resources/resources"("assets"),
     Scene = require"source/core/scene/scene",
     Sandbox = require"source/core/scene/sandbox",
 

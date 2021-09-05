@@ -59,19 +59,19 @@ local MoveComponent = core.ComponentCountructor("MoveComponent",{
             local position = e:getComponent("PositionComponent")
 
             if love.keyboard.isDown("w") then
-                position.y = position.y - (c.speed * dt)
+                position.y = math.floor(position.y - (c.speed * dt))
             end
 
             if love.keyboard.isDown("s") then
-                position.y = position.y + (c.speed * dt)
+                position.y = math.floor(position.y + (c.speed * dt))
             end
 
             if love.keyboard.isDown("a") then
-                position.x = position.x - (c.speed * dt)
+                position.x = math.floor(position.x - (c.speed * dt))
             end
 
             if love.keyboard.isDown("d") then
-                position.x = position.x + (c.speed * dt)
+                position.x = math.floor(position.x + (c.speed * dt))
             end
 
             local depth = e:getComponent("DepthComponent")
@@ -109,7 +109,17 @@ local RandomColorBox = core.EntityCountructor("RandomColorBox",{
 local KeyboardControlRandomColorBox = core.EntityCountructor("KeyboardControlRandomColor",{
     make = function(self,e)
         ColorBox.make(self,e,0,0,100,100,1,1,1,1)
-        e:addComponent(MoveComponent,150)
+        e:addComponent(MoveComponent,650)
+    end
+})
+
+local CameraFollowComponent = core.ComponentCountructor("CameraFollowComponent",{
+    make = function(self,c,position_component,camera)
+        c.camera = camera
+        c.position_component = position_component
+        c.update = function(self)
+            self.camera:lookAt(position_component.x,position_component.y)
+        end
     end
 })
 
@@ -124,13 +134,43 @@ local sanbox = core.Sandbox()
 local wd_w,wd_h = love.graphics.getDimensions()
 local wd_w2,wd_h2 = wd_w / 2,wd_h / 2
 
-sanbox:addEntity(Debug(),"Debug")
-sanbox:addEntity(KeyboardControlRandomColorBox(),"Player")
+local player = KeyboardControlRandomColorBox()
+player:addComponent(CameraFollowComponent,player:getComponent("PositionComponent"),sanbox.camera)
 
-local box_number = 8000
+sanbox:addEntity(Debug(),"Debug")
+sanbox:addEntity(player,"Player")
+
+local box_number = 0
 
 for i = 1,box_number do
     sanbox:addEntity(RandomColorBox(-wd_w2,-wd_h2,wd_w2,wd_h2))
 end
+
+local TileMap = require"source/entity/tilemap"
+local Utilities = require("source/core/base/utilities")
+
+local tile_map = TileMap(128,128,16)
+
+local BlockTileset = core.Resources:get("assets/image/tilesets/block/block.tileset.json")
+local GrassTile = BlockTileset:getTile("grass")
+local WaterTile = BlockTileset:getTile("water")
+local SandTile = BlockTileset:getTile("sand")
+
+local tile_map_comp = tile_map:getComponent("TileMapComponent")
+sanbox:addEntity(tile_map)
+
+for y = 0,128 do
+    for x = 0,128 do
+        local n = Utilities.noise3D(x,y,0,2.33,2.23,128)
+        if n > 0.17 then
+            tile_map_comp:setTile(BlockTileset,"grass",x,y)
+        elseif n > 0.15 then
+            tile_map_comp:setTile(BlockTileset,"sand",x,y)
+        else
+            tile_map_comp:setTile(BlockTileset,"water",x,y)
+        end
+    end
+end
+
 
 sanbox:applyToLoveCallback()
