@@ -99,7 +99,7 @@ function camera:zoomTo(zoom)
 end
 
 function camera:attach(x,y,w,h, noclip)
-	love.graphics.clear();
+	--love.graphics.clear();
 
 	x,y = x or 0, y or 0
 	w,h = w or love.graphics.getWidth(), h or love.graphics.getHeight()

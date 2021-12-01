@@ -81,7 +81,6 @@ end
 
 local lm_noise = love.math.noise
 function utilities.noise3D(x,y,z,frequency,exponent,scale)
-    local freq = frequency
     local nx,ny,nz = frequency * (x / scale - 0.5),
         frequency * (y / scale - 0.5),
         frequency * (z / scale - 0.5)

@@ -1,5 +1,7 @@
 require"source/core/core"
 
+local SandboxObjectComponent = require"source/core/scene/components/sandbox_object_component"
+
 local PositionComponent = core.ComponentCountructor("PositionComponent",{
     make = function(self,c,x,y)
         c.x = x or 0
@@ -23,11 +25,11 @@ local ColorComponent = core.ComponentCountructor("ColorComponent",{
     end
 })
 
-local DepthComponent = core.ComponentCountructor("DepthComponent",{
-    make = function(self,c,d)
-        c.depth = d or 0
-    end
-})
+-- local SandboxObjectComponent = core.ComponentCountructor("SandboxObjectComponent",{
+--     make = function(self,c,d)
+--         c.depth = d or 0
+--     end
+-- })
 
 local ColorBoxDrawComponent = core.ComponentCountructor("ColorBoxDrawComponent",{
     make = function(self,c)
@@ -45,7 +47,7 @@ local ColorBoxDrawComponent = core.ComponentCountructor("ColorBoxDrawComponent",
 local DebugComponent = core.ComponentCountructor("DebugComponent",{
     make = function(self,c)
         c.draw = function(self,e,dt)
-            local str = string.format("Love2D Game  |   fps : %d",love.timer.getFPS())
+            local str = string.format("Love2D Game  |   fps : %d   dt: %f",love.timer.getFPS(),love.timer.getDelta())
             love.window.setTitle(str)
         end
     end
@@ -56,28 +58,28 @@ local MoveComponent = core.ComponentCountructor("MoveComponent",{
         c.speed = speed or 150
 
         c.update = function(self,e,dt)
+            --local dt = love.timer.getDelta()
             local position = e:getComponent("PositionComponent")
+            local vx,vy = 0,0
 
             if love.keyboard.isDown("w") then
-                position.y = math.floor(position.y - (c.speed * dt))
-            end
-
-            if love.keyboard.isDown("s") then
-                position.y = math.floor(position.y + (c.speed * dt))
+                vy = -math.floor((c.speed * dt))
+            elseif love.keyboard.isDown("s") then
+                vy = math.floor((c.speed * dt))
             end
 
             if love.keyboard.isDown("a") then
-                position.x = math.floor(position.x - (c.speed * dt))
+                vx = -math.floor((c.speed * dt))
+            elseif love.keyboard.isDown("d") then
+                vx = math.floor((c.speed * dt))
             end
 
-            if love.keyboard.isDown("d") then
-                position.x = math.floor(position.x + (c.speed * dt))
-            end
+            position.x = position.x + vx
+            position.y = position.y + vy
 
-            local depth = e:getComponent("DepthComponent")
+            local depth = e:getComponent("SandboxObjectComponent")
             if depth ~= nil then
-                --local h = e:getComponent("BoxComponent").height
-                depth.depth = -math.ceil(position.y)-- + h
+                depth.depth = -math.ceil(position.y)
             end
         end
     end
@@ -88,7 +90,7 @@ local ColorBox = core.EntityCountructor("ColorBox",{
         e:addComponent(PositionComponent,x or 0,y or 0)
         e:addComponent(BoxComponent,w or 10,h or 10)
         e:addComponent(ColorComponent,r or 1,g or 1,b or 1,a or 1)
-        e:addComponent(DepthComponent,
+        e:addComponent(SandboxObjectComponent,
             -math.ceil(e:getComponent("PositionComponent").y)
         )
         e:addComponent(ColorBoxDrawComponent)
@@ -106,20 +108,22 @@ local RandomColorBox = core.EntityCountructor("RandomColorBox",{
     end
 })
 
-local KeyboardControlRandomColorBox = core.EntityCountructor("KeyboardControlRandomColor",{
-    make = function(self,e)
-        ColorBox.make(self,e,0,0,100,100,1,1,1,1)
-        e:addComponent(MoveComponent,650)
-    end
-})
-
 local CameraFollowComponent = core.ComponentCountructor("CameraFollowComponent",{
     make = function(self,c,position_component,camera)
         c.camera = camera
         c.position_component = position_component
         c.update = function(self)
-            self.camera:lookAt(position_component.x,position_component.y)
+            self.camera:lockPosition(position_component.x,position_component.y, self.camera.smooth.damped(5))
+            --self.camera:lookAt(position_component.x,position_component.y)
         end
+    end
+})
+
+local KeyboardControlRandomColorBox = core.EntityCountructor("KeyboardControlRandomColor",{
+    make = function(self,e,sandbox)
+        ColorBox.make(self,e,0,0,100,100,1,1,1,1)
+        e:addComponent(CameraFollowComponent,e:getComponent("PositionComponent"),sandbox.camera)
+        e:addComponent(MoveComponent,820)
     end
 })
 
@@ -134,13 +138,18 @@ local sanbox = core.Sandbox()
 local wd_w,wd_h = love.graphics.getDimensions()
 local wd_w2,wd_h2 = wd_w / 2,wd_h / 2
 
-local player = KeyboardControlRandomColorBox()
-player:addComponent(CameraFollowComponent,player:getComponent("PositionComponent"),sanbox.camera)
+local player = KeyboardControlRandomColorBox(sanbox)
+
+local colorbox_1 = ColorBox(100,100,50,50,1.0,1.0,1.0,1.0)
+sanbox:addEntity(colorbox_1)
+
+local colorbox_2 = ColorBox(100,150,50,50,1.0,1.0,0.0,1.0)
+sanbox:addEntity(colorbox_2)
 
 sanbox:addEntity(Debug(),"Debug")
 sanbox:addEntity(player,"Player")
 
-local box_number = 0
+local box_number = 1000
 
 for i = 1,box_number do
     sanbox:addEntity(RandomColorBox(-wd_w2,-wd_h2,wd_w2,wd_h2))
@@ -157,6 +166,7 @@ local WaterTile = BlockTileset:getTile("water")
 local SandTile = BlockTileset:getTile("sand")
 
 local tile_map_comp = tile_map:getComponent("TileMapComponent")
+sanbox.camera.scale = 1
 sanbox:addEntity(tile_map)
 
 for y = 0,128 do

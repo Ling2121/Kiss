@@ -42,6 +42,11 @@ local function newTileset(file_item)
         item.image = image
         item.draw = tile_draw_fn
         tileset.tiles[item.name] = item
+
+        function item:type()
+            return "Tile"
+        end
+        
         x = x + 1
         if x > tlewsize then
             x = 0
@@ -51,6 +56,10 @@ local function newTileset(file_item)
 
     tileset.getTile = function(self,name)
         return self.tiles[name]
+    end
+
+    function tileset:type()
+        return "TileSet"
     end
 
     return tileset

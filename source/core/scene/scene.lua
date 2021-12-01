@@ -212,21 +212,7 @@ local function newDDSList(segment_size)
 end
 --DSList--
 
-local callback_list = {	
-    "quit",
-    "draw",
-    "update",
-    "directorydropped",
-    "filedropped",
-    "keypressed",
-    "keyreleased",
-    "textedited",
-    "textinput",
-    "mousemoved",
-    "mousepressed",
-    "mousereleased",
-    "wheelmoved",
-}
+local callback_list = require"source/core/scene/callback_list"
 
 
 --Scene--
