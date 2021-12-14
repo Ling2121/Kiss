@@ -1,20 +1,6 @@
 --返回用于创建实体构造器的函数
 
-local callback_list = {	
-    "quit",
-    "draw",
-    "update",
-    "directorydropped",
-    "filedropped",
-    "keypressed",
-    "keyreleased",
-    "textedited",
-    "textinput",
-    "mousemoved",
-    "mousepressed",
-    "mousereleased",
-    "wheelmoved",
-}
+local callback_list = require"source/core/scene/callback_list"
 
 return function(type_name,t)
     t.type_name = type_name
@@ -50,6 +36,8 @@ return function(type_name,t)
                 end
             end
             self.components[name] = component
+
+            return component
         end
         
         entity.removeComponent = function(self,component_name)
@@ -66,6 +54,8 @@ return function(type_name,t)
             end
         
             self.components[component_name] = nil
+
+            return c
         end
 
         entity.getComponent = function(self,name)

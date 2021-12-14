@@ -241,6 +241,16 @@ return function(segment_size)
         end
     end
 
+    scene.load = function(args)end
+
+    scene.ready = function(self)
+        for node in scene._list:iterNodes() do
+            if node.ready then
+                node:ready()
+            end
+        end
+    end
+
     scene.addEntity = function(self,entiy,name,depth)
         name = name or tostring(entiy)
         if self._entities[name] ~= nil then

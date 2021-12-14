@@ -1,5 +1,6 @@
 local callback_list = {	
-    --"quit",
+    "ready",
+    "quit",
     "draw",
     "update",
     "directorydropped",
