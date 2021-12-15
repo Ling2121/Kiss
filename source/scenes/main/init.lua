@@ -131,7 +131,7 @@ local CameraFollowComponent = core.ComponentCountructor("CameraFollowComponent",
 
 local KeyboardControlRandomColorBox = core.EntityCountructor("KeyboardControlRandomColor",{
     make = function(self,e,sandbox,collision_world,x,y)
-        ColorBox.make(self,e,collision_world,x,y,40,40,1,1,1,1)
+        ColorBox.make(self,e,collision_world,x,y,30,30,1,1,1,1)
         e:addComponent(CameraFollowComponent,e:getComponent("PositionComponent"),sandbox.camera)
         e:addComponent(MoveComponent,100)
     end
@@ -153,7 +153,7 @@ function sanbox:load(args)
     local wd_w,wd_h = love.graphics.getDimensions()
     local wd_w2,wd_h2 = wd_w / 2,wd_h / 2
 
-    local player = KeyboardControlRandomColorBox(sanbox,game.CollisionWorld,50,50)
+    local player = KeyboardControlRandomColorBox(sanbox,game.CollisionWorld,-50,-50)
 
     local colorbox_1 = ColorBox(game.CollisionWorld,100,100,50,50,1.0,1.0,1.0,1.0)
     sanbox:addEntity(colorbox_1)

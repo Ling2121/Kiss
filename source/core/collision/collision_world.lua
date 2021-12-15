@@ -15,10 +15,10 @@ end
 
 return function(config)
     local CellSize = config.CellSize or 256
-    local PortName = config.PortName or "HC"
+    local Port = config.Port or "HC"
 
     local collsion_world = {
-        _port = createPort(PortName,config),
+        _port = createPort(Port,config),
         _objects = {},
         _objects_buffer = {},
         _idx_pool = IndexPool(),

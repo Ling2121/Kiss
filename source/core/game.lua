@@ -3,6 +3,7 @@ local CollisionWorld = require"source/core/collision/collision_world"
 
 return function(config)
     config.CollisionWorldRegionSize = config.CollisionWorldRegionSize or 256;
+    config.CollisionPort = config.CollisionPort or "Bump"
     -- 场景集合根目录 ->用于自动场景加载器，不为nil时则为开启
     -- 目录结构
     -- ScenesRootDirectory
@@ -25,7 +26,7 @@ return function(config)
 
         game.CollisionWorld = CollisionWorld{
             CellSize = config.CollisionWorldRegionSize,
-            PortName = "HC"
+            Port = config.CollisionPort
         }
 
         local ScenesRootDirectory = self._config.ScenesRootDirectory
