@@ -52,12 +52,12 @@ return function(config)
         self.world:remove(shape)
     end
     --移动形状（偏移）
-    port.shapeMove = function(self,shape,dx,dy)
-        local x,y,c = self.world:move(shape,shape.x + dx,shape.y + dy)
+    port.shapeMove = function(self,shape,dx,dy,filter_func)
+        local x,y,c = self.world:move(shape,shape.x + dx,shape.y + dy,filter_func)
         return c
     end
     --移动形状到指定位置
-    port.shapeMoveTo = function(self,shape,x,y)
+    port.shapeMoveTo = function(self,shape,x,y,filter_func)
         return self.world:update(shape,x,y)
     end
     --获取形状位置

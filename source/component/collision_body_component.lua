@@ -55,14 +55,14 @@ return core.ComponentCountructor("CollisionBodyComponent",{
             return self.collision_world:shapeGetPropertiy(self.shape_idx,"entity")
         end
 
-        component.move = function(self,dx,dy)
+        component.move = function(self,dx,dy,filter_func)
             if dx == 0 and dy == 0 then return nil end
-            return self.collision_world:shapeMove(self.shape_idx,dx,dy)
+            return self.collision_world:shapeMove(self.shape_idx,dx,dy,filter_func)
         end
 
         --移动并且同步到Position组件（必须通过bindPositionComponent函数绑定Position组件）
-        component.moveAndSyncToPosition = function(self,dx,dy)
-            local c = self:move(dx,dy)
+        component.moveAndSyncToPosition = function(self,dx,dy,filter_func)
+            local c = self:move(dx,dy,filter_func)
             self.position_component.x,self.position_component.y = self.collision_world:shapeGetPosition(self.shape_idx)
             return c
         end

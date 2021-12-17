@@ -17,9 +17,17 @@ return function(port)
     --删除形状
     port.removeShape = function(self,shape)end
     --移动形状（偏移）
-    port.shapeMove = function(self,shape,dx,dy)end
+    port.shapeMove = function(self,shape,dx,dy,filter_func)
+        --[[
+            filter_func(shape,other) 
+                return true --返回true表示通过，返回false表示过滤（不进行碰撞计算）
+                            --还有一些特殊的返回值，这要看端的实现
+            end
+
+        ]]
+    end
     --移动形状到指定位置
-    port.shapeMoveTo = function(self,shape,x,y)end
+    port.shapeMoveTo = function(self,shape,x,y,filter_func)end
     --获取形状位置
     port.shapeGetPosition = function(self,shape) return 0,0 end
     --设置形状属性表

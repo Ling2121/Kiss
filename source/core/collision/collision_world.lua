@@ -13,9 +13,16 @@ local function createPort(name,config)
     return port_fn(config)
 end
 
+local function defaultCollisionFilterFunc(shape1,shape2)
+    return "slide"
+end
+
 return function(config)
+    config.CollisionFilterFunc = config.CollisionFilterFunc or defaultCollisionFilterFunc
+
     local CellSize = config.CellSize or 256
-    local Port = config.Port or "HC"
+    local CollisionFilterFunc = config.CollisionFilterFunc
+    local Port = config.Port or "Bump"
 
     local collsion_world = {
         _port = createPort(Port,config),
@@ -84,13 +91,14 @@ return function(config)
         return true
     end
 
-    function collsion_world:shapeMove(idx,dx,dy)
+    function collsion_world:shapeMove(idx,dx,dy,filter_func)
+        filter_func = filter_func or defaultCollisionFilterFunc
         local shape = self._objects[idx]
         if shape == nil then return nil end
-        return self._port:shapeMove(shape,dx,dy)
+        return self._port:shapeMove(shape,dx,dy,filter_func)
     end
 
-    function collsion_world:shapeMoveTo(idx,x,y)
+    function collsion_world:shapeMoveTo(idx,x,y,filter_func)
         local shape = self._objects[idx]
         if shape == nil then return nil end
         return self._port:shapeMoveTo(shape,dx,dy)

@@ -75,7 +75,13 @@ local MoveComponent = core.ComponentCountructor("MoveComponent",{
 
 
             if collision_body ~= nil then
-                collision_body:moveAndSyncToPosition(vx,vy)
+                collision_body:moveAndSyncToPosition(vx,vy,function(a,b)
+                    local area = b.w * b.h
+                    if area <= 2500 then
+                        return  false
+                    end
+                    return "slide"
+                end)
             else
                 position.x = position.x + vx
                 position.y = position.y + vy
