@@ -1,19 +1,9 @@
 local SandboxObjectComponent = require"source/core/scene/components/sandbox_object_component"
 local CollisionBodyComponent = require"source/component/collision_body_component"
-
-local PositionComponent = core.ComponentCountructor("PositionComponent",{
-    make = function(self,c,x,y)
-        c.x = x or 0
-        c.y = y or 0
-    end
-})
-
-local BoxComponent = core.ComponentCountructor("BoxComponent",{
-    make = function(self,c,w,h)
-        c.width = w or 10
-        c.height = h or 10
-    end
-})
+local CollisionBodyMoveComponent = require"source/component/move_system/move_component/collision_body_move_component"
+local MoveClearComponent = require"source/component/move_system/move_component/move_clear_component"
+local MoveControlComponent = require"source/component/move_system/move_control_component/move_control_component"
+local PositionComponent = require"source/component/position_component"
 
 local ColorComponent = core.ComponentCountructor("ColorComponent",{
     make = function(self,c,r,g,b,a)
@@ -24,14 +14,13 @@ local ColorComponent = core.ComponentCountructor("ColorComponent",{
     end
 })
 
-local ColorBoxDrawComponent = core.ComponentCountructor("ColorBoxDrawComponent",{
-    make = function(self,c)
-        c.draw = function(self,entity)
-            local position = entity:getComponent("PositionComponent")
-            local box = entity:getComponent("BoxComponent")
-            local color = entity:getComponent("ColorComponent")
-            love.graphics.setColor(color.r,color.g,color.b,color.a)
-            love.graphics.rectangle("fill",position.x,position.y,box.width,box.height)
+local CollisionBodyDrawComponent = core.ComponentCountructor("CollisionBodyDrawComponent",{
+    make = function(self,component,body_c,color_c)
+        component.body = body_c
+        component.color = color_c
+        component.draw = function(self,entity)
+            love.graphics.setColor(self.color.r,self.color.g,self.color.b,self.color.a)
+            love.graphics.rectangle("fill",self.body.x,self.body.y,self.body.w,self.body.h)
             love.graphics.setColor(1,1,1,1)
         end
     end
@@ -46,76 +35,25 @@ local DebugComponent = core.ComponentCountructor("DebugComponent",{
     end
 })
 
-local MoveComponent = core.ComponentCountructor("MoveComponent",{
-    make = function(self,c,speed)
-        c.speed = speed or 150
-
-        c.update = function(self,e,dt)
-            --local dt = love.timer.getDelta()
-            local position = e:getComponent("PositionComponent")
-            local collision_body = e:getComponent("CollisionBodyComponent")
-
-
-            local vx,vy = 0,0
-
-            if love.keyboard.isDown("w") then
-                vy = -c.speed * dt
-            end
-            if love.keyboard.isDown("s") then
-                vy = c.speed * dt
-            end
-
-            if love.keyboard.isDown("a") then
-                vx = -c.speed * dt
-            end
-            
-            if love.keyboard.isDown("d") then
-                vx = c.speed * dt
-            end
-
-
-            if collision_body ~= nil then
-                collision_body:moveAndSyncToPosition(vx,vy,function(a,b)
-                    local area = b.w * b.h
-                    if area <= 2500 then
-                        return  false
-                    end
-                    return "slide"
-                end)
-            else
-                position.x = position.x + vx
-                position.y = position.y + vy
-            end
-
-            local depth = e:getComponent("SandboxObjectComponent")
-            if depth ~= nil then
-                depth.depth = -math.ceil(position.y)
-            end
-        end
-    end
-})
-
 local ColorBox = core.EntityCountructor("ColorBox",{
     make = function(self,e,collision_world,x,y,w,h,r,g,b,a)
         local w2,h2 = w / 2,h / 2
 
-        local p = e:addComponent(PositionComponent,(x or 0),(y or 0))
-        e:addComponent(BoxComponent,w or 10,h or 10)
-        e:addComponent(ColorComponent,r or 1,g or 1,b or 1,a or 1)
-        e:addComponent(SandboxObjectComponent,
-            -math.ceil(p.y)
-        )
-        e:addComponent(ColorBoxDrawComponent)
-
-        e:addComponent(CollisionBodyComponent,collision_world,"rectangle",x,y,w,h)
+        local position = e:addComponent(PositionComponent,(x or 0),(y or 0))
+        local color = e:addComponent(ColorComponent,r or 1,g or 1,b or 1,a or 1)
+        local body = e:addComponent(CollisionBodyComponent,collision_world,"rectangle",x,y,w,h)
             :bindEntity(e)
-            :bindPositionComponent(p)
+            :bindPositionComponent(position)
+
+        e:addComponent(SandboxObjectComponent,
+            -math.ceil(position.y)
+        )
+        e:addComponent(CollisionBodyDrawComponent,collision_world:getShape(body.shape_idx),color)
     end
 })
 
 local RandomColorBox = core.EntityCountructor("RandomColorBox",{
     make = function(self,e,collision_world,min_x,min_y,max_x,max_y)
-
         ColorBox.make(self,e,collision_world,
             love.math.random(min_x,max_x),love.math.random(min_y,max_y),
             love.math.random(50,80),love.math.random(50,80),
@@ -130,16 +68,46 @@ local CameraFollowComponent = core.ComponentCountructor("CameraFollowComponent",
         c.position_component = position_component
         c.update = function(self)
             self.camera:lockPosition(position_component.x,position_component.y, self.camera.smooth.damped(5))
-            --self.camera:lookAt(position_component.x,position_component.y)
         end
     end
 })
 
-local KeyboardControlRandomColorBox = core.EntityCountructor("KeyboardControlRandomColor",{
+local key = love.keyboard.isDown
+
+local KeyboardControlColorBox = core.EntityCountructor("KeyboardControlColorBox",{
     make = function(self,e,sandbox,collision_world,x,y)
+        
+        
+
         ColorBox.make(self,e,collision_world,x,y,30,30,1,1,1,1)
         e:addComponent(CameraFollowComponent,e:getComponent("PositionComponent"),sandbox.camera)
-        e:addComponent(MoveComponent,100)
+        
+        local move_component = CollisionBodyMoveComponent(e:getComponent("CollisionBodyComponent"))
+        
+        e:addComponent(MoveControlComponent,move_component,200,function(self,dt)
+            local vx,vy = 0,0
+            local speed = self:getEndSpeed()
+            if key("w") then
+                vy = -speed * dt
+            end
+            if key("s") then
+                vy = speed * dt
+            end
+
+            if key("a") then
+                vx = -speed * dt
+            end
+            
+            if key("d") then
+                vx = speed * dt
+            end
+
+            return vx,vy
+        end)
+
+        e:addComponent(move_component)
+
+        e:addComponent(MoveClearComponent,move_component)
     end
 })
 
@@ -159,7 +127,7 @@ function sanbox:load(args)
     local wd_w,wd_h = love.graphics.getDimensions()
     local wd_w2,wd_h2 = wd_w / 2,wd_h / 2
 
-    local player = KeyboardControlRandomColorBox(sanbox,game.CollisionWorld,-50,-50)
+    local player = KeyboardControlColorBox(sanbox,game.CollisionWorld,-50,-50)
 
     local colorbox_1 = ColorBox(game.CollisionWorld,100,100,50,50,1.0,1.0,1.0,1.0)
     sanbox:addEntity(colorbox_1)
