@@ -1,0 +1,291 @@
+make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make.exe: *** No rule to make target 'all'.  Stop.
+
+# GNU Make 4.2.1_st_20200221-0903_longpath
+# Built for x86_64-w64-mingw32
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Mon Oct 10 14:53:45 2022
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
+# automatic
+?F = $(notdir $?)
+# default
+.SHELLFLAGS := -c
+# makefile
+MAKEFLAGS = pqrR
+# automatic
+?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
+# environment
+PLATFORMIO_IDE = 2.4.1
+# automatic
+@D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
+# environment
+HOMEDRIVE = C:
+# automatic
+@F = $(notdir $@)
+# automatic
+^D = $(patsubst %/,%,$(patsubst %\,%,$(dir $^)))
+# makefile
+CURDIR := d:/Development/Projects/Love2d/kiss
+# environment
+EIDE_OPENOCD = 
+# default
+SHELL := c:/Users/Ling_2121/.vscode/extensions/cl.eide-2.16.7/bin/builder/msys/bin/sh.exe
+# environment
+WINDIR = C:\Windows
+# environment
+VSCODE_NLS_CONFIG = {"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"bcb43daf7fc7aee39837fa8516ffebcd.zh-cn","_translationsConfigFile":"C:\\Users\\Ling_2121\\AppData\\Roaming\\Code\\clp\\bcb43daf7fc7aee39837fa8516ffebcd.zh-cn\\tcf.json","_cacheRoot":"C:\\Users\\Ling_2121\\AppData\\Roaming\\Code\\clp\\bcb43daf7fc7aee39837fa8516ffebcd.zh-cn","_resolvedLanguagePackCoreLocation":"C:\\Users\\Ling_2121\\AppData\\Roaming\\Code\\clp\\bcb43daf7fc7aee39837fa8516ffebcd.zh-cn\\74b1f979648cc44d385a2286793c226e611f59e7","_corruptedFile":"C:\\Users\\Ling_2121\\AppData\\Roaming\\Code\\clp\\bcb43daf7fc7aee39837fa8516ffebcd.zh-cn\\corrupted.info","_languagePackSupport":true}
+# environment
+ONEDRIVE = C:\Users\Ling_2121\OneDrive
+# environment
+PUBLIC = C:\Users\Public
+# environment
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
+# makefile
+MAKEFILE_LIST := 
+# environment
+TMP = C:\Users\LING_2~1\AppData\Local\Temp
+# environment
+PROGRAMW6432 = C:\Program Files
+# environment
+PROGRAMDATA = C:\ProgramData
+# environment
+VSCODE_CWD = D:\Development\Projects\Love2d\kiss
+# environment
+EIDE_ARM_GCC = 
+# default
+MAKE_HOST := x86_64-w64-mingw32
+# environment
+NO_PROXY = 127.0.0.1
+# environment
+COMMONPROGRAMW6432 = C:\Program Files\Common Files
+# environment
+ZES_ENABLE_SYSMAN = 1
+# environment
+CHOCOLATEYLASTPATHUPDATE = 132936268356678804
+# environment
+PROCESSOR_ARCHITECTURE = AMD64
+# environment
+USERPROFILE = C:\Users\Ling_2121
+# environment
+CHOCOLATEYINSTALL = C:\ProgramData\chocolatey
+# environment
+ALLUSERSPROFILE = C:\ProgramData
+# environment
+NUMBER_OF_PROCESSORS = 8
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync
+# automatic
+%F = $(notdir $%)
+# automatic
+*F = $(notdir $*)
+# environment
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_11000_DBQCRQMCZHCCHQXE
+# environment
+COMPUTERNAME = DESKTOP-K3VCQNN
+# environment
+PROGRAMFILES = C:\Program Files
+# default
+.LOADED := 
+# environment
+DRIVERDATA = C:\Windows\System32\Drivers\DriverData
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+USERNAME = Ling_2121
+# environment
+KMP_DUPLICATE_LIB_OK = TRUE
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+VSCODE_CODE_CACHE_PATH = C:\Users\Ling_2121\AppData\Roaming\Code\CachedData\74b1f979648cc44d385a2286793c226e611f59e7
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# environment
+COMMONPROGRAMFILES = C:\Program Files\Common Files
+# environment
+LOGONSERVER = \\DESKTOP-K3VCQNN
+# environment
+ONEDRIVECONSUMER = C:\Users\Ling_2121\OneDrive
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+USERDOMAIN = DESKTOP-K3VCQNN
+# environment
+MAKELEVEL := 0
+# environment
+PLATFORMIO_PATH = C:\Users\Ling_2121\.platformio\python3;E:\Development\Environment\Python\Python3\Scripts\;E:\Development\Environment\Python\Python3\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;E:\Development\Environment\Git\cmd;E:\Development\Environment\Love2D\Love11;E:\Development\IDE\Arduino;E:\Development\Projects\Godot\BoxTools\TiledMapToBoxSanbox\bin\Debug\net6.0;E:\Development\IDE\΢��web�����߹���\dll;E:\Development\Environment\NodeJS\;C:\ProgramData\chocolatey\bin;D:\dev\luajit\src;D:\dev\lua53;C:\Program Files (x86)\LuaRocks;C:\raylib\w64devkit\bin;C:\Users\Ling_2121\.cargo\bin;C:\Users\Ling_2121\AppData\Local\Microsoft\WindowsApps;C:\Users\Ling_2121\.dotnet\tools;E:\Development\IDE\Visual Studio Code\bin;C:\Users\Ling_2121\AppData\Roaming\npm;E:\Development\Environment\Python\Python3\Scripts\;E:\Development\Environment\Python\Python3\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;E:\Development\Environment\Git\cmd;E:\Development\Environment\Love2D\Love11;E:\Development\IDE\Arduino;E:\Development\Projects\Godot\BoxTools\TiledMapToBoxSanbox\bin\Debug\net6.0;E:\Development\IDE\΢��web�����߹���\dll;E:\Development\Environment\NodeJS\;C:\ProgramData\chocolatey\bin;D:\dev\luajit\src;D:\dev\lua53;C:\Program Files (x86)\LuaRocks;C:\raylib\w64devkit\bin;C:\Users\Ling_2121\.cargo\bin;C:\Users\Ling_2121\AppData\Local\Microsoft\WindowsApps;C:\Users\Ling_2121\.dotnet\tools;E:\Development\IDE\Visual Studio Code\bin;C:\Users\Ling_2121\AppData\Roaming\npm
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+PATH = c:\Users\Ling_2121\.vscode\extensions\cl.eide-2.16.7\bin\builder;c:\Users\Ling_2121\.vscode\extensions\cl.eide-2.16.7\bin\builder\utils;C:\Users\Ling_2121\.eide\tools;c:\Users\Ling_2121\.vscode\extensions\cl.eide-2.16.7\bin\builder\msys\bin;E:\Development\Environment\Python\Python3\Scripts\;E:\Development\Environment\Python\Python3\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;E:\Development\Environment\Git\cmd;E:\Development\Environment\Love2D\Love11;E:\Development\IDE\Arduino;E:\Development\Projects\Godot\BoxTools\TiledMapToBoxSanbox\bin\Debug\net6.0;E:\Development\IDE\΢��web�����߹���\dll;E:\Development\Environment\NodeJS\;C:\ProgramData\chocolatey\bin;D:\dev\luajit\src;D:\dev\lua53;C:\Program Files (x86)\LuaRocks;C:\raylib\w64devkit\bin;C:\Users\Ling_2121\.cargo\bin;C:\Users\Ling_2121\AppData\Local\Microsoft\WindowsApps;C:\Users\Ling_2121\.dotnet\tools;E:\Development\IDE\Visual Studio Code\bin;C:\Users\Ling_2121\AppData\Roaming\npm
+# default
+MAKE_VERSION := 4.2.1_st_20200221-0903_longpath
+# makefile
+.DEFAULT_GOAL := 
+# environment
+PROGRAMFILES(X86) = C:\Program Files (x86)
+# environment
+EIDE_MSYS = c:\Users\Ling_2121\.vscode\extensions\cl.eide-2.16.7\bin\builder\msys\bin
+# automatic
+%D = $(patsubst %/,%,$(patsubst %\,%,$(dir $%)))
+# environment
+LOCALAPPDATA = C:\Users\Ling_2121\AppData\Local
+# environment
+PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+# default
+MAKE_COMMAND := make.exe
+# default
+.VARIABLES := 
+# environment
+EIDE_TOOLS_DIR = C:\Users\Ling_2121\.eide\tools
+# environment
+PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 11, GenuineIntel
+# environment
+OS = Windows_NT
+# environment
+VSCODE_IPC_HOOK = \\.\pipe\ca868ab074893180ea7612a841ce620e-1.71.2-main-sock
+# environment
+HOMEPATH = \Users\Ling_2121
+# environment
+COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
+# environment
+PROMPT = $P$G
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
+# environment
+SYSTEMROOT = C:\Windows
+# automatic
++D = $(patsubst %/,%,$(patsubst %\,%,$(dir $+)))
+# automatic
++F = $(notdir $+)
+# environment
+APPDATA = C:\Users\Ling_2121\AppData\Roaming
+# environment
+TEMP = C:\Users\LING_2~1\AppData\Local\Temp
+# environment
+COMSPEC = C:\Windows\system32\cmd.exe
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# environment
+PLATFORMIO_CALLER = vscode
+# environment
+MKL_SERIAL = YES
+# environment
+EIDE_JLINK = 
+# environment
+LC_ALL = C
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# environment
+SYSTEMDRIVE = C:
+# environment
+SESSIONNAME = Console
+# environment
+PROCESSOR_REVISION = 8e0b
+# default
+.RECIPEPREFIX := 
+# environment
+LANG = C
+# environment
+PROCESSOR_LEVEL = 6
+# environment
+VSCODE_PID = 11000
+# environment
+USERDOMAIN_ROAMINGPROFILE = DESKTOP-K3VCQNN
+# variable set hash-table stats:
+# Load=100/1024=10%, Rehash=0, Collisions=19/117=16%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (key d:/Development/Projects/Love2d/kiss, mtime 1665384821): 18 files, no impossibilities.
+
+# 18 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+makefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+makefile.mak:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+GNUmakefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# files hash-table stats:
+# Load=7/1024=1%, Rehash=0, Collisions=0/16=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 25 / storage = 202 B / avg = 8 B
+# current buf: size = 8162 B / used = 202 B / count = 25 / avg = 8 B
+
+# strcache performance: lookups = 27 / hit rate = 7%
+# hash-table stats:
+# Load=25/8192=0%, Rehash=0, Collisions=1/27=4%
+# Finished Make data base on Mon Oct 10 14:53:45 2022
+
+ 
