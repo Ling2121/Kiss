@@ -212,7 +212,7 @@ local function newDDSList(segment_size)
 end
 --DSList--
 
-local callback_list = require"source/core/scene/callback_list"
+local regulatory_callbacks = require"source/core/scene/regulatory_callbacks"
 
 
 --Scene--
@@ -223,7 +223,7 @@ return function(segment_size)
     }
 
     --生成回调函数
-    for i,name in ipairs(callback_list) do
+    for i,name in ipairs(regulatory_callbacks) do
         scene[name] = function(self,...)
             for entity in scene._list:iter() do
                 if entity[name] ~= nil then
@@ -234,7 +234,7 @@ return function(segment_size)
     end
 
     scene.applyToLoveCallback = function(self)
-        for i,name in ipairs(callback_list) do
+        for i,name in ipairs(regulatory_callbacks) do
             love[name] = function(...)
                 self[name](self,...)
             end

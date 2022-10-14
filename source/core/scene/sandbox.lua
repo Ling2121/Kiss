@@ -1,6 +1,6 @@
 local Scene = require"source/core/scene/scene"
 local Camera = require"library/camera"
-local callback_list = require"source/core/scene/callback_list"
+local regulatory_callbacks = require"source/core/scene/regulatory_callbacks"
 
 return function()
     local sandbox = Scene(256)
@@ -21,7 +21,7 @@ return function()
     end
 
     --生成回调函数
-    for i,name in ipairs(callback_list) do
+    for i,name in ipairs(regulatory_callbacks) do
         sandbox[name] = function(self,...)
             for entity in sandbox._list:iter() do
                 if entity[name] ~= nil then

@@ -1,4 +1,4 @@
-return core.ComponentCountructor("BaseMoveControlComponent",{
+return core.ComponentConstructor("BaseMoveControlComponent",{
     make = function(self,component,move_component,speed,control_func)
         component.speed = speed or 0
         component.add_speed = 0

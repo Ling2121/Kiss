@@ -1,4 +1,4 @@
-local callback_list = {	
+local regulatory_callbacks = {	
     "ready",
     "quit",
     "draw",
@@ -15,4 +15,4 @@ local callback_list = {
     "wheelmoved",
 }
 
-return callback_list
+return regulatory_callbacks

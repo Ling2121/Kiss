@@ -16,7 +16,7 @@
 
  ## 局限性
 
-​        1.使用本框架时，如果需要使用Scene模块，就会禁用love本身的回调，love本身的回调将会由Scene模块进行管理。当然不是所有回调都禁用，只要在"source\core\scene\callback_list.lua"内定义的才会禁用，用户可以根据需要去添加或者删除需要的回调。
+​        1.使用本框架时，如果需要使用Scene模块，就会禁用love本身的回调，love本身的回调将会由Scene模块进行管理。当然不是所有回调都禁用，只要在"source\core\scene\regulatory_callbacks.lua"内定义的才会禁用，用户可以根据需要去添加或者删除需要的回调。
 
 ​        2.就一个👆，实现并不复杂，如何使用还是要看自身
 

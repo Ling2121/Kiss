@@ -1,4 +1,4 @@
-return core.ComponentCountructor("PositionComponent",{
+return core.ComponentConstructor("PositionComponent",{
     make = function(self,component,x,y)
         component.x = x or 0
         component.y = y or 0

@@ -1,4 +1,4 @@
-return core.ComponentCountructor("MoveComponent",{
+return core.ComponentConstructor("MoveComponent",{
     make = function(self,component,position_component)
         component.vx = 0
         component.vy = 0

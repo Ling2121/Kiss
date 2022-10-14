@@ -1,4 +1,4 @@
-return core.ComponentCountructor("TileMapComponent",{
+return core.ComponentConstructor("TileMapComponent",{
     make = function(_,self,width,height,tile_size,...)
         tile_size = tile_size or 16
         local canvas_width = tile_size * (width or 128)
@@ -31,7 +31,7 @@ return core.ComponentCountructor("TileMapComponent",{
             love.graphics.setScissor(0,0,self.window_width,self.window_height)
             love.graphics.draw(self.canvas,self.origin_x,self.origin_y)
 
-            --love.graphics.setScissor()
+            love.graphics.setScissor()
         end
     end
 })

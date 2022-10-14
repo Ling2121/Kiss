@@ -1,4 +1,4 @@
-return core.ComponentCountructor("BodyComponent",{
+return core.ComponentConstructor("BodyComponent",{
     make = function(_,self,slots)
         --[[
             part : {

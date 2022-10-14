@@ -1,4 +1,4 @@
-return core.ComponentCountructor("CollisionBodyComponent",{
+return core.ComponentConstructor("CollisionBodyComponent",{
     --[[
         参数说明
             entities : 实体本身

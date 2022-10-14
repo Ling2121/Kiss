@@ -1,4 +1,4 @@
-return core.ComponentCountructor("MoveClearComponent",{
+return core.ComponentConstructor("MoveClearComponent",{
     make = function(self,component,move_component)
         component.is_clear = true
         component.move_component = move_component

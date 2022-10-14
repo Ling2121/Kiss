@@ -1,7 +1,7 @@
 local Signal = require"source/core/base/signal"
 local MoveComponent = require"source/component/move_system/move_component/move_component"
 
-return core.ComponentCountructor("CollisionBodyMoveComponent",{
+return core.ComponentConstructor("CollisionBodyMoveComponent",{
     make = function(self,component,collision_body_component)
         MoveComponent:make(component)
         component.body = collision_body_component

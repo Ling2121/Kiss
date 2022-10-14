@@ -1,11 +1,11 @@
-local SandboxObjectComponent = require"source/core/scene/components/sandbox_object_component"
+local SandboxObjectComponent = require"source/component/sandbox/sandbox_object_component"
 local CollisionBodyComponent = require"source/component/collision_body_component"
 local CollisionBodyMoveComponent = require"source/component/move_system/move_component/collision_body_move_component"
 local MoveClearComponent = require"source/component/move_system/move_component/move_clear_component"
 local MoveControlComponent = require"source/component/move_system/move_control_component/move_control_component"
 local PositionComponent = require"source/component/position_component"
 
-local ColorComponent = core.ComponentCountructor("ColorComponent",{
+local ColorComponent = core.ComponentConstructor("ColorComponent",{
     make = function(self,c,r,g,b,a)
         c.r = r or 255
         c.g = g or 255
@@ -14,7 +14,7 @@ local ColorComponent = core.ComponentCountructor("ColorComponent",{
     end
 })
 
-local CollisionBodyDrawComponent = core.ComponentCountructor("CollisionBodyDrawComponent",{
+local CollisionBodyDrawComponent = core.ComponentConstructor("CollisionBodyDrawComponent",{
     make = function(self,component,body_c,color_c)
         component.body = body_c
         component.color = color_c
@@ -26,7 +26,7 @@ local CollisionBodyDrawComponent = core.ComponentCountructor("CollisionBodyDrawC
     end
 })
 
-local DebugComponent = core.ComponentCountructor("DebugComponent",{
+local DebugComponent = core.ComponentConstructor("DebugComponent",{
     make = function(self,c)
         c.draw = function(self,e,dt)
             local str = string.format("Love2D Game  |   fps : %d   dt: %f",love.timer.getFPS(),love.timer.getDelta())
@@ -62,7 +62,7 @@ local RandomColorBox = core.EntityCountructor("RandomColorBox",{
     end
 })
 
-local CameraFollowComponent = core.ComponentCountructor("CameraFollowComponent",{
+local CameraFollowComponent = core.ComponentConstructor("CameraFollowComponent",{
     make = function(self,c,position_component,camera)
         c.camera = camera
         c.position_component = position_component
