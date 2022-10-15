@@ -5,6 +5,8 @@ local MoveClearComponent = require"source/component/move_system/move_component/m
 local MoveControlComponent = require"source/component/move_system/move_control_component/move_control_component"
 local PositionComponent = require"source/component/position_component"
 
+local Sandbox = require"source/entity/sandbox"
+
 local ColorComponent = core.ComponentConstructor("ColorComponent",{
     make = function(self,c,r,g,b,a)
         c.r = r or 255
@@ -118,33 +120,32 @@ local Debug = core.EntityCountructor("RandomColorBox",{
 })
 
 
+local sandbox = Sandbox()
 
-local sanbox = core.Sandbox()
-
-function sanbox:load(args)
+function sandbox:load(args)
     love.math.setRandomSeed(2333)
 
     local wd_w,wd_h = love.graphics.getDimensions()
     local wd_w2,wd_h2 = wd_w / 2,wd_h / 2
 
-    local player = KeyboardControlColorBox(sanbox,game.CollisionWorld,-50,-50)
+    local player = KeyboardControlColorBox(sandbox,game.CollisionWorld,-50,-50)
 
     local colorbox_1 = ColorBox(game.CollisionWorld,100,100,50,50,1.0,1.0,1.0,1.0)
-    sanbox:addEntity(colorbox_1)
+    sandbox:addEntity(colorbox_1)
 
     local colorbox_2 = ColorBox(game.CollisionWorld,120,150,50,50,1.0,1.0,0.0,1.0)
-    sanbox:addEntity(colorbox_2)
+    sandbox:addEntity(colorbox_2)
 
     local colorbox_3 = ColorBox(game.CollisionWorld,120,200,50,50,1.0,1.0,0.0,1.0)
-    sanbox:addEntity(colorbox_3)
+    sandbox:addEntity(colorbox_3)
 
-    sanbox:addEntity(Debug(),"Debug")
-    sanbox:addEntity(player,"Player")
+    sandbox:addEntity(Debug(),"Debug")
+    sandbox:addEntity(player,"Player")
 
     local box_number = 10
 
     for i = 1,box_number do
-        sanbox:addEntity(RandomColorBox(game.CollisionWorld,-wd_w2,-wd_h2,wd_w2,wd_h2))
+        sandbox:addEntity(RandomColorBox(game.CollisionWorld,-wd_w2,-wd_h2,wd_w2,wd_h2))
     end
 
     local TileMap = require"source/entity/tilemap"
@@ -158,8 +159,8 @@ function sanbox:load(args)
     local SandTile = BlockTileset:getTile("sand")
 
     local tile_map_comp = tile_map:getComponent("TileMapComponent")
-    sanbox.camera.scale = 2
-    sanbox:addEntity(tile_map)
+    sandbox.camera.scale = 2
+    sandbox:addEntity(tile_map)
 
     for y = 0,128 do
         for x = 0,128 do
@@ -175,4 +176,4 @@ function sanbox:load(args)
     end
 end
 
-return sanbox
+return sandbox

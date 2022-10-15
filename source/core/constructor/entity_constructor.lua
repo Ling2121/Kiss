@@ -8,7 +8,8 @@ end
 
 return function(type_name,t)
     t.type_name = type_name
-    t.make = t.make or function(self,entity,...)end
+    t.base_make = t.base_make or function(self,...) return {} end--构造基础对象,下一步会传入make作为entity参数 -> return object
+    t.make = t.make or function(self,entity,...)end--构造函数 -> return nil
     t.create = function(self,...)
         local entity = {
             _cb_channels = {},
@@ -96,12 +97,13 @@ return function(type_name,t)
         end
 
 
-        local new_entity = {
-            name = "",
-            --请勿直接对其进行操作
-            --要添加和删除需要使用 addComponent以及removeComponent 方法
-            components = {},
-        }
+
+        local new_entity = self.base_make(...)
+
+        new_entity.name = ""
+        --请勿直接对其进行操作
+        --要添加和删除需要使用 addComponent以及removeComponent 方法
+        new_entity.components = {}
 
         --这样设置主要是为了数据与逻辑分离
         setmetatable(new_entity,{__index = entity})
