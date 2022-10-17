@@ -18,7 +18,7 @@ return function()
     function index_pool:freeIndex(idx)
         if self._pool[idx] == nil then
             self._pool[idx] = idx
-            table.insert(self.._pool,idx)
+            table.insert(self._pool,idx)
         end
     end
 
