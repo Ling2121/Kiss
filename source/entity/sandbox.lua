@@ -9,6 +9,10 @@ return core.EntityCountructor("Sandbox",{
         sandbox.camera = Camera(0,0)
         sandbox._addEntity = sandbox.addEntity
 
+        sandbox.addRegion = function(self,region)
+            
+        end
+
         sandbox.addEntity = function(self,entity,name)
             local sandbox_object = entity:getComponent("SandboxObjectComponent")
             local depth_f = function(self)
