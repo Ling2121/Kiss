@@ -13,8 +13,6 @@ return core.ComponentConstructor("SandboxComponent",{
                 self.regions[y] = {}
             end
             self.regions[y][x] = region
-        end
-
-        
+        end        
     end
 })

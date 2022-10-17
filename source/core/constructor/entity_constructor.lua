@@ -66,6 +66,9 @@ return function(type_name,t)
                     self:_addObjectToCallbackChannel(cname,component)
                 end
             end
+
+            component.entity = self
+
             self.components[name] = component
 
             return component
@@ -82,6 +85,8 @@ return function(type_name,t)
                     self:_removeObjectFromCallbackChannel(cname,component)
                 end
             end
+
+            c.entity = nil
         
             self.components[component_name] = nil
 
