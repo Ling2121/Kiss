@@ -263,13 +263,13 @@ return function(segment_size)
     end
 
     scene.removeEntity= function(self,entity)
-        local name = self._entities[entiy]
+        local name = self._entities[entity]
         if name == nil then
             return
         end
-        self._entities[entiy] = nil
-        self._entities[name] = nil
-        self._list:remove(entiy)
+        self._entities[entity] = nil
+        self._entities[entity] = nil
+        self._list:remove(entity)
     end
 
     scene.getEntity = function(self,name)
