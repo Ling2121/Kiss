@@ -71,10 +71,10 @@ return core.EntityCountructor("Sandbox",{
                 if item.draw then
                     local sandbox_object = item:getComponent("SandboxObjectComponent")
                     if sandbox_object == nil then
-                        item:draw()
+                        item:draw(self.camera)
                     else
                         if sandbox_object.is_process and sandbox_object.is_display then
-                            item:draw()
+                            item:draw(self.camera)
                         end
                     end
                 end

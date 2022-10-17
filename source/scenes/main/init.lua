@@ -104,6 +104,11 @@ local KeyboardControlColorBox = core.EntityCountructor("KeyboardControlColorBox"
                 vx = speed * dt
             end
 
+            local PC = e:getComponent("PositionComponent")
+            local SOC = e:getComponent("SandboxObjectComponent")
+
+            SOC.depth = -math.ceil(PC.y + vy)
+
             return vx,vy
         end)
 
@@ -159,6 +164,7 @@ function sandbox:load(args)
     local SandTile = BlockTileset:getTile("sand")
 
     local tile_map_comp = tile_map:getComponent("TileMapComponent")
+    
     sandbox.camera.scale = 2
     sandbox:addEntity(tile_map)
 
