@@ -65,6 +65,54 @@ local function newTileset(file_item)
     return tileset
 end
 
+
+--[[
+    资源管理器
+
+    资源类型
+        Image 图片
+        Audio 声音
+        Font 字体
+        Tileset 瓷砖集
+
+    功能
+        预加载资源
+        防止重复资源加载
+        资源编组
+        自定义资源加载
+    
+    资源加载器
+        配置文件 (lua格式)
+            [加载器名称].resld.lua
+                return function(path,...)
+                    return 返回资源
+                end
+            参数
+                这个函数会在加载指定资源的时候执行
+                第一个参数会传入加载文件的完整路径
+                后续参数则是用户在调用时传入的参数
+                
+            例子
+                /assets/font/font1.ttf
+                
+                core.Resources:get("/assets/font/font1.ttf",13)
+                    -> res.item = font_loader("/assets/font/font1.ttf",13)
+
+
+
+    资源配置
+        配置文件 (json格式)
+            [资源同名文件].res
+            可在任何文件夹内创建
+
+        格式
+            {
+                group : "xxx",//组名
+                loader : "xxx",//加载器
+                properties : {},//属性
+            }
+--]]
+
 return function(path)
     local items = utilities.getAllFileItem(path)
     local resources = {}
