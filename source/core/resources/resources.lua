@@ -84,9 +84,15 @@ end
     资源加载器
         配置文件 (lua格式)
             [加载器名称].resld.lua
-                return function(path,...)
-                    return 返回资源
-                end
+                return {
+                    load = function(res,path,...)
+                        res[xxx] = xxx
+                    end,
+
+                    get = function(res,...)
+                        return res[xxx]
+                    end
+                }
             参数
                 这个函数会在加载指定资源的时候执行
                 第一个参数会传入加载文件的完整路径
@@ -111,7 +117,80 @@ end
                 loader : "xxx",//加载器
                 properties : {},//属性
             }
+        生成的table
+            {
+                source = "xxx",//源文件完整路径
+
+                group = "xxx",
+                loader = "xxx",
+                properties = {},
+            }
 --]]
+
+local ImageLoader = {
+    has = function(res,path,...) return res.item ~= nil end;
+
+    load = function(res,path,setting)
+        if res.item ~= nil then return end;
+
+        res.item = love.graphics.newImage(path)
+    end;
+
+    get = function(res,path)
+        return res.item
+    end
+}
+
+local AudioLoader = {
+    has = function(res,path,...) return res.item ~= nil end;
+
+    load = function(res,path,setting)
+        if res.item ~= nil then return end;
+        res.item = love.audio.newSource(path,"stream")
+    end;
+
+    get = function(res,path)
+        return res.item
+    end
+}
+
+local DEFINE_FONT_SIZE = 12
+
+local FontLoader = {
+    has = function(res,path,size) 
+        res.fonts = res.fonts or {}
+        if size ~= nil then
+            return res.fonts[size] ~= nil 
+        end
+        return res.fonts[DEFINE_FONT_SIZE] ~= nil
+    end;
+
+    load = function(res,path,setting,size)
+        size = size or DEFINE_FONT_SIZE
+        res.fonts = res.fonts or {}
+        if res.fonts[size] then return end
+
+        res.fonts[size] = love.graphics.newFont(path,size)
+    end;
+
+    get = function(res,path,size)
+        res.fonts = res.fonts or {}
+        return res.fonts[size]
+    end
+}
+
+local TileSetLoader = {
+    has = function(res,path,...) return res.item ~= nil end;
+
+    load = function(res,path,setting)
+        if res.item ~= nil then return end;
+        res.item = 
+    end;
+
+    get = function(res,path)
+        return res.item
+    end
+}
 
 return function(path)
     local items = utilities.getAllFileItem(path)
@@ -129,7 +208,7 @@ return function(path)
 
         if items.type == FILE_TYPE_AUDIO then
             resources[item.path] = {
-                item = love.graphics.newImage(item.path),
+                
                 get = function(self)
                     return self.item
                 end
