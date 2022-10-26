@@ -158,7 +158,7 @@ function sandbox:load(args)
 
     local tile_map = TileMap(128,128,16)
 
-    local BlockTileset = core.Resources:get("assets/image/tilesets/block/block.tileset.json")
+    local BlockTileset = core.Resources:getFromGroup("TileSets","Blocks")
     local GrassTile = BlockTileset:getTile("grass")
     local WaterTile = BlockTileset:getTile("water")
     local SandTile = BlockTileset:getTile("sand")

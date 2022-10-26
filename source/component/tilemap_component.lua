@@ -13,14 +13,14 @@ return core.ComponentConstructor("TileMapComponent",{
         self.setTile = function(self,tileset_or_path,tile_name,x,y)
             local tileset = tileset_or_path
             if type(tileset_or_path) == "string" then
-                tileset = core.Resources:get(tileset)
+                tileset = core.Resources:getFromGroup("Tilesets",tileset)
             end
             if tileset == nil then
                 return
             end
             local tile = tileset:getTile(tile_name)
             if tile == nil then
-                return tile
+                return
             end
             love.graphics.setCanvas(self.canvas)
             tile:draw((x or 0) * self.tile_size,(y or 0) * self.tile_size)

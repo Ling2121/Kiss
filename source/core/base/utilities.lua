@@ -2,35 +2,7 @@ local dkjson = require"library/dkjson"
 
 local utilities = {}
 
-FILE_TYPE_IMAGE = 0
-FILE_TYPE_AUDIO = 1
-FILE_TYPE_FONT = 2
-FILE_TYPE_TILESET = 3
-FILE_TYPE_LUAFILE = 4
-
-local match_table = {
-    -- lua文件
-    {"([0-9a-zA-z_]+)%.lua", FILE_TYPE_LUAFILE,".lua"},
-
-    -- 图像文件
-    {"([0-9a-zA-z_]+)%.png", FILE_TYPE_IMAGE,".png"},
-    {"([0-9a-zA-z_]+)%.jpg", FILE_TYPE_IMAGE,".jpg"},
-    {"([0-9a-zA-z_]+)%.jpeg",FILE_TYPE_IMAGE,".jpeg"},
-
-    -- 音频
-    {"([0-9a-zA-z_]+)%.ogg", FILE_TYPE_AUDIO,".ogg"},
-    {"([0-9a-zA-z_]+)%.mp3", FILE_TYPE_AUDIO,".mp3"},
-    {"([0-9a-zA-z_]+)%.wav", FILE_TYPE_AUDIO,".wav"},
-
-    -- 字体
-    {"([0-9a-zA-z_]+)%.otf", FILE_TYPE_FONT,".otf"},
-    {"([0-9a-zA-z_]+)%.ttf", FILE_TYPE_FONT,".ttf"},
-
-    --瓷砖集
-    {"([0-9a-zA-z_]+)%.tileset%.json", FILE_TYPE_TILESET,".tileset.json"},
-}
-
-function utilities.getAllFileItem(dir,tb)
+function utilities.getAllFileItem(match_table,dir,tb)
     tb = tb or {}
     local fitem = love.filesystem.getDirectoryItems(dir)
 
@@ -55,7 +27,7 @@ function utilities.getAllFileItem(dir,tb)
         end
 
         if type == "directory" then
-            utilities.getAllFileItem(p,tb)
+            utilities.getAllFileItem(match_table,p,tb)
         end
 	end
 
@@ -72,6 +44,10 @@ function utilities.PPRadian(p1x,p1y,p2x,p2y)
 	if p1y-p2y<0 then r=r+math.pi end
 	if r<0 then r=r+2*math.pi end
 	return r
+end
+
+function utilities.loadFileToString(path)
+    return love.filesystem.read(path)
 end
 
 function utilities.loadJsonToTable(path)
