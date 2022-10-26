@@ -1,17 +1,17 @@
 local Scene = require"source/core/scene/scene"
 local Camera = require"library/camera"
 local regulatory_callbacks = require"source/core/scene/regulatory_callbacks"
+local SandboxComponent = require"source/component/sandbox/sandbox_component"
 
 return core.EntityCountructor("Sandbox",{
     base_make = function(self,...) return Scene(256) end;
 
     make = function (self,sandbox)
+
+        sandbox:addComponent(SandboxComponent())
+
         sandbox.camera = Camera(0,0)
         sandbox._addEntity = sandbox.addEntity
-
-        sandbox.addRegion = function(self,region)
-            
-        end
 
         sandbox.addEntity = function(self,entity,name)
             local sandbox_object = entity:getComponent("SandboxObjectComponent")

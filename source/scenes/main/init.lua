@@ -5,7 +5,8 @@ local MoveClearComponent = require"source/component/move_system/move_component/m
 local MoveControlComponent = require"source/component/move_system/move_control_component/move_control_component"
 local PositionComponent = require"source/component/position_component"
 
-local Sandbox = require"source/entity/sandbox"
+local Sandbox = require"source/entity/sandbox/sandbox"
+local SandboxRegion = require"source/entity/sandbox/sandbox_region"
 
 local ColorComponent = core.ComponentConstructor("ColorComponent",{
     make = function(self,c,r,g,b,a)
@@ -168,17 +169,49 @@ function sandbox:load(args)
     sandbox.camera.scale = 2
     sandbox:addEntity(tile_map)
 
+    local sandbox_component = sandbox:getComponent("SandboxComponent")
+
+    local region_width = 16
+    local region_height = 16
+    local region_tile_size = 16
+
+    local regions = {}
+    local x1,y1 = 0,0
+
     for y = 0,128 do
         for x = 0,128 do
-            local n = Utilities.noise3D(x,y,0,2.33,2.23,128)
-            if n > 0.17 then
-                tile_map_comp:setTile(BlockTileset,"grass",x,y)
-            elseif n > 0.15 then
-                tile_map_comp:setTile(BlockTileset,"sand",x,y)
-            else
-                tile_map_comp:setTile(BlockTileset,"water",x,y)
+            local rx,ry = math.floor(x / region_width),math.floor(y / region_height)
+
+            local region = sandbox_component:getRegion(rx,ry)
+
+            if region == nil then
+                region = SandboxRegion(rx,ry,region_width,region_height,region_tile_size)
+                sandbox_component:addRegion(region,rx,ry)
+                sandbox:addEntity(region)
+                table.insert(regions,region)
             end
+
+            local region_c = region:getComponent("SandboxRegionComponent")
+
+            local n = Utilities.noise3D(x,y,0,2.33,2.23,128)
+            local tile_name = "water"
+            if n > 0.17 then
+                tile_name = "grass"
+            elseif n > 0.15 then
+                tile_name = "sand"
+            end
+
+            local rlx = x - (rx * region_tile_size)
+            local rly = y - (ry * region_tile_size)
+            
+            region_c:setTile("Blocks",tile_name,rlx,rly)
+
         end
+    end
+
+    for i,r in ipairs(regions) do
+        local c = r:getComponent("SandboxRegionComponent");
+        c:redraw()
     end
 end
 
