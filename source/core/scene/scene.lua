@@ -235,8 +235,10 @@ return function(segment_size)
 
     scene.applyToLoveCallback = function(self)
         for i,name in ipairs(regulatory_callbacks) do
-            love[name] = function(...)
-                self[name](self,...)
+            if name ~= "quit" then
+                love[name] = function(...)
+                    self[name](self,...)
+                end
             end
         end
     end

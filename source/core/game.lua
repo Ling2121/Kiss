@@ -15,6 +15,7 @@ return function(config)
     local game = {
         CollisionWorld = nil,
         CurrentScene = nil,
+        Thread = {},
 
         _config = config,
         _scenes = {},
@@ -64,6 +65,13 @@ return function(config)
             print("加载成功")
         end
         return true
+    end
+
+
+    function love.quit()
+        if game.CurrentScene then
+            game.CurrentScene:quit()
+        end
     end
     
     return game

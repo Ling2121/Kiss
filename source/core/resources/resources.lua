@@ -105,7 +105,6 @@ local match_table = {
 
 return function(path)
     local items = utilities.getAllFileItem(match_table,path)
-    
 
     local self = {
         resources = {},
