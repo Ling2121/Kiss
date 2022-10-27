@@ -6,5 +6,11 @@ game = require"source.core/game"{
 }
 
 function love.load(args)
+    core:load()
     game:load(args)
+end
+
+function love.quit()
+    game:quit()
+    core:quit()
 end

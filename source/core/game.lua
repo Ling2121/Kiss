@@ -15,7 +15,6 @@ return function(config)
     local game = {
         CollisionWorld = nil,
         CurrentScene = nil,
-        Thread = {},
 
         _config = config,
         _scenes = {},
@@ -66,14 +65,13 @@ return function(config)
         end
         return true
     end
-
-
-    function love.quit()
-        if game.CurrentScene then
-            game.CurrentScene:quit()
+    
+    function game:quit()
+        if self.CurrentScene ~= nil then
+            self.CurrentScene:quit()
         end
     end
-    
+
     return game
 end
 
