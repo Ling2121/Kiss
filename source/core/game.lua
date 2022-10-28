@@ -51,6 +51,7 @@ return function(config)
             print(string.format("加载%s场景...",name))
         end
         if not scene then
+            self.CurrentScene = nil
             if is_print_log then
                 print("加载失败，请检查是否存在此场景")
             end
@@ -63,6 +64,7 @@ return function(config)
         if is_print_log then
             print("加载成功")
         end
+        self.CurrentScene = scene
         return true
     end
     
@@ -72,9 +74,9 @@ return function(config)
         end
     end
 
-    function game:update()
+    function game:update(dt)
         if self.CurrentScene ~= nil then
-            self.CurrentScene:update()
+            self.CurrentScene:update(dt)
         end
     end
 

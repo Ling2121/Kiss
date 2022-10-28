@@ -129,90 +129,104 @@ local Debug = core.EntityCountructor("RandomColorBox",{
 local sandbox = Sandbox()
 
 function sandbox:load(args)
-    love.math.setRandomSeed(2333)
+    core.Thread:createTask("load_file",
+    function()
+        print("loading")
+        local file = love.filesystem.newFile("icon.png")
+        file:open("r")
+        file:read()
+        return file
+    end,
+    function(file)
+        print("read :",file:getSize())
+    end)
 
-    local wd_w,wd_h = love.graphics.getDimensions()
-    local wd_w2,wd_h2 = wd_w / 2,wd_h / 2
+    core.Thread:startTask("load_file")
 
-    local player = KeyboardControlColorBox(sandbox,game.CollisionWorld,-50,-50)
+    -- love.math.setRandomSeed(2333)
 
-    local colorbox_1 = ColorBox(game.CollisionWorld,100,100,50,50,1.0,1.0,1.0,1.0)
-    sandbox:addEntity(colorbox_1)
+    -- local wd_w,wd_h = love.graphics.getDimensions()
+    -- local wd_w2,wd_h2 = wd_w / 2,wd_h / 2
 
-    local colorbox_2 = ColorBox(game.CollisionWorld,120,150,50,50,1.0,1.0,0.0,1.0)
-    sandbox:addEntity(colorbox_2)
+    -- local player = KeyboardControlColorBox(sandbox,game.CollisionWorld,-50,-50)
 
-    local colorbox_3 = ColorBox(game.CollisionWorld,120,200,50,50,1.0,1.0,0.0,1.0)
-    sandbox:addEntity(colorbox_3)
+    -- local colorbox_1 = ColorBox(game.CollisionWorld,100,100,50,50,1.0,1.0,1.0,1.0)
+    -- sandbox:addEntity(colorbox_1)
 
-    sandbox:addEntity(Debug(),"Debug")
-    sandbox:addEntity(player,"Player")
+    -- local colorbox_2 = ColorBox(game.CollisionWorld,120,150,50,50,1.0,1.0,0.0,1.0)
+    -- sandbox:addEntity(colorbox_2)
 
-    local box_number = 10
+    -- local colorbox_3 = ColorBox(game.CollisionWorld,120,200,50,50,1.0,1.0,0.0,1.0)
+    -- sandbox:addEntity(colorbox_3)
 
-    for i = 1,box_number do
-        sandbox:addEntity(RandomColorBox(game.CollisionWorld,-wd_w2,-wd_h2,wd_w2,wd_h2))
-    end
+    -- sandbox:addEntity(Debug(),"Debug")
+    -- sandbox:addEntity(player,"Player")
 
-    local TileMap = require"source/entity/tilemap"
-    local Utilities = require("source/core/base/utilities")
+    -- local box_number = 10
 
-    local tile_map = TileMap(128,128,16)
+    -- for i = 1,box_number do
+    --     sandbox:addEntity(RandomColorBox(game.CollisionWorld,-wd_w2,-wd_h2,wd_w2,wd_h2))
+    -- end
 
-    local BlockTileset = core.Resources:getFromGroup("TileSets","Blocks")
-    local GrassTile = BlockTileset:getTile("grass")
-    local WaterTile = BlockTileset:getTile("water")
-    local SandTile = BlockTileset:getTile("sand")
+    -- local TileMap = require"source/entity/tilemap"
+    -- local Utilities = require("source/core/base/utilities")
 
-    local tile_map_comp = tile_map:getComponent("TileMapComponent")
+    -- local tile_map = TileMap(128,128,16)
+
+    -- local BlockTileset = core.Resources:getFromGroup("TileSets","Blocks")
+    -- local GrassTile = BlockTileset:getTile("grass")
+    -- local WaterTile = BlockTileset:getTile("water")
+    -- local SandTile = BlockTileset:getTile("sand")
+
+    -- local tile_map_comp = tile_map:getComponent("TileMapComponent")
     
-    sandbox.camera.scale = 2
-    sandbox:addEntity(tile_map)
+    -- sandbox.camera.scale = 2
+    -- sandbox:addEntity(tile_map)
 
-    local sandbox_component = sandbox:getComponent("SandboxComponent")
+    -- local sandbox_component = sandbox:getComponent("SandboxComponent")
 
-    local region_width = 16
-    local region_height = 16
-    local region_tile_size = 16
+    -- local region_width = 16
+    -- local region_height = 16
+    -- local region_tile_size = 16
 
-    local regions = {}
-    local x1,y1 = 0,0
+    -- local regions = {}
+    -- local x1,y1 = 0,0
 
-    for y = 0,128 do
-        for x = 0,128 do
-            local rx,ry = math.floor(x / region_width),math.floor(y / region_height)
+    -- for y = 0,128 do
+    --     for x = 0,128 do
+    --         local rx,ry = math.floor(x / region_width),math.floor(y / region_height)
 
-            local region = sandbox_component:getRegion(rx,ry)
+    --         local region = sandbox_component:getRegion(rx,ry)
 
-            if region == nil then
-                region = SandboxRegion(rx,ry,region_width,region_height,region_tile_size)
-                sandbox_component:addRegion(region,rx,ry)
-                sandbox:addEntity(region)
-                table.insert(regions,region)
-            end
+    --         if region == nil then
+    --             region = SandboxRegion(rx,ry,region_width,region_height,region_tile_size)
+    --             sandbox_component:addRegion(region,rx,ry)
+    --             sandbox:addEntity(region)
+    --             table.insert(regions,region)
+    --         end
 
-            local region_c = region:getComponent("SandboxRegionComponent")
+    --         local region_c = region:getComponent("SandboxRegionComponent")
 
-            local n = Utilities.noise3D(x,y,0,2.33,2.23,128)
-            local tile_name = "water"
-            if n > 0.17 then
-                tile_name = "grass"
-            elseif n > 0.15 then
-                tile_name = "sand"
-            end
+    --         local n = Utilities.noise3D(x,y,0,2.33,2.23,128)
+    --         local tile_name = "water"
+    --         if n > 0.17 then
+    --             tile_name = "grass"
+    --         elseif n > 0.15 then
+    --             tile_name = "sand"
+    --         end
 
-            local rlx = x - (rx * region_tile_size)
-            local rly = y - (ry * region_tile_size)
+    --         local rlx = x - (rx * region_tile_size)
+    --         local rly = y - (ry * region_tile_size)
             
-            region_c:setTile("Blocks",tile_name,rlx,rly)
+    --         region_c:setTile("Blocks",tile_name,rlx,rly)
 
-        end
-    end
+    --     end
+    -- end
 
-    for i,r in ipairs(regions) do
-        local c = r:getComponent("SandboxRegionComponent");
-        c:redraw()
-    end
+    -- for i,r in ipairs(regions) do
+    --     local c = r:getComponent("SandboxRegionComponent");
+    --     c:redraw()
+    -- end
 end
 
 return sandbox
