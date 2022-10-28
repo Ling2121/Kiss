@@ -72,6 +72,12 @@ return function(config)
         end
     end
 
+    function game:update()
+        if self.CurrentScene ~= nil then
+            self.CurrentScene:update()
+        end
+    end
+
     return game
 end
 

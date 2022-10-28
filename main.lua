@@ -10,6 +10,11 @@ function love.load(args)
     game:load(args)
 end
 
+function love.update(dt)
+    core:update()
+    game:update(dt)
+end
+
 function love.quit()
     game:quit()
     core:quit()

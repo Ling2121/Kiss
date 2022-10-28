@@ -11,14 +11,19 @@ core = {
 }
 
 function core:load()
-    self.Resources = require"source/core/resources/resources"("")
+    self.Thread = require"source/core/thread/thread"()
     self.EntityCountructor = require"source/core/constructor/entity_constructor"
     self.ComponentConstructor = require"source/core/constructor/component_constructor"
     self.Utilities = require"source/core/base/utilities"
+    self.Resources = require"source/core/resources/resources"("")
+end
+
+function core:update()
+    self.Thread:update()
 end
 
 function core:quit()
-    
+    self.Thread:quit()
 end
 
 return core

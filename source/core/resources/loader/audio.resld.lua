@@ -1,5 +1,12 @@
 return {
     name = "audio",
+    
+    type_tag = "audio",
+    extension = {
+        "ogg",
+        "mp3",
+        "wav"
+    },
 
     has = function(res,path,...) return res.item ~= nil end;
 

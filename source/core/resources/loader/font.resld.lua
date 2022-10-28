@@ -1,6 +1,12 @@
 return {
     name = "font",
 
+    type_tag = "font",
+    extension = {
+        "ttf",
+        "otf",
+    },
+
     has = function(res,path,size) 
         res.fonts = res.fonts or {}
         if size ~= nil then

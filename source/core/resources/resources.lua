@@ -79,32 +79,13 @@ FILE_TYPE_LUAFILE = "luafile"
 FILE_TYPE_RESOURCE = "resource"
 FILE_TYPE_RESOURCE_LOADER = "resource_loader"
 
-local match_table = {
-    -- 资源配置文件
-    {"([0-9a-zA-z_]+)%.res$", FILE_TYPE_RESOURCE,".res"},
-    
-    -- 资源加载器
-    {"([0-9a-zA-z_]+)%.resld%.lua$", FILE_TYPE_RESOURCE_LOADER,".resld.lua"},
-    -- lua文件
-    {"([0-9a-zA-z_]+)%.lua$", FILE_TYPE_LUAFILE,".lua"},
-
-    -- 图像文件
-    {"([0-9a-zA-z_]+)%.png$", FILE_TYPE_IMAGE,".png"},
-    {"([0-9a-zA-z_]+)%.jpg$", FILE_TYPE_IMAGE,".jpg"},
-    {"([0-9a-zA-z_]+)%.jpeg$",FILE_TYPE_IMAGE,".jpeg"},
-
-    -- 音频
-    {"([0-9a-zA-z_]+)%.ogg$", FILE_TYPE_AUDIO,".ogg"},
-    {"([0-9a-zA-z_]+)%.mp3$", FILE_TYPE_AUDIO,".mp3"},
-    {"([0-9a-zA-z_]+)%.wav$", FILE_TYPE_AUDIO,".wav"},
-
-    -- 字体
-    {"([0-9a-zA-z_]+)%.otf$", FILE_TYPE_FONT,".otf"},
-    {"([0-9a-zA-z_]+)%.ttf$", FILE_TYPE_FONT,".ttf"},
-}
-
 return function(path)
-    local items = utilities.getAllFileItem(match_table,path)
+    local match_table = {
+        -- 资源配置文件
+        {"([0-9a-zA-z_]+)%.res$", FILE_TYPE_RESOURCE},
+        -- lua文件
+        {"([0-9a-zA-z_]+)%.lua$", FILE_TYPE_LUAFILE},
+    }
 
     local self = {
         resources = {},
@@ -124,12 +105,24 @@ return function(path)
     end
 
     --加载所有资源加载器
-    for i,item in ipairs(items) do
+    for i,item in ipairs(utilities.getAllFileItem({
+        -- 匹配资源加载器
+        {"([0-9a-zA-z_]+)%.resld%.lua$", FILE_TYPE_RESOURCE_LOADER},
+    },path)) do
         if item.type == FILE_TYPE_RESOURCE_LOADER then
             local loader,err2 =  loadstring(love.filesystem.read(item.path))()
             self.loaders[loader.name] = loader
+            if loader.extension then
+                local type_tag = loader.type_tag or loader.name
+                for i,name in ipairs(loader.extension) do
+                    local mat_str = "([0-9a-zA-z_]+)%."..name:gsub("%.","%%%.")
+                    table.insert(match_table,{mat_str,type_tag})
+                end
+            end
         end
     end
+
+    local items = utilities.getAllFileItem(match_table,path)
 
     for i,item in ipairs(items) do
         local setting_file_name = item.path .. ".res"
@@ -140,8 +133,11 @@ return function(path)
         if info ~= nil and info.type == "file" then
             res_setting = utilities.loadJsonToTable(setting_file_name)
         end
-        
+
+        local loader = self.loaders[item.type]--默认的加载器
+
         if res_setting ~= nil then
+            --有配置的加载则用配置的加载器进行加载
             loader = self.loaders[res_setting.loader] or loader
         end
 
@@ -160,7 +156,10 @@ return function(path)
             }
             self.resources[item.path] = res
 
+            local is_pre_load = loader.pre_load_all
+
             if res_setting ~= nil then
+                is_pre_load = res_setting.pre_load
                 --编组
                 local group_setting = res_setting.group_setting
                 if group_setting ~= nil then
@@ -178,6 +177,11 @@ return function(path)
                         end
                     end
                 end
+            end
+
+            --预先加载资源
+            if is_pre_load then
+                loader:load(res,item.path,res_setting)
             end
         end 
     end

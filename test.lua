@@ -1,24 +1,13 @@
-function f(w,h,i)
-    local y = math.floor(i / h)
-    local x = math.abs(y * w - i)
-    print(i,string.format("x %d  y %d",x,y))
+local x = 100
+
+function a(x)
+    print("aaaa",x,_G)
 end
 
-function f2(rx,rs,wx)
-    local lx = wx - (rx * rs)
-    print(lx)
+function b(x)
+    a(100)
 end
 
--- local w,h = 3,3
+local d = string.dump(b)
 
-function f3(rx,rs,x)
-    return rx * rs + x
-end
-
-local rx,rs = -14,16
-
-f2(rx,rs,f3(rx,rs,14))
-
--- for i = 0,8 do
---     f(w,h,i)
--- end
+load(d)()
