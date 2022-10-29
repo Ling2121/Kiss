@@ -1,4 +1,4 @@
-local ffi = require"ffi"
+local carray = require"source/core/base/carray"
 
 local function getTileIndex(table,tileset_name,tile_name)
     if table[tileset_name] == nil then
@@ -34,7 +34,7 @@ return core.ComponentConstructor("SandboxRegionComponent",{
         self.height = height
         self.tile_size = tile_size
         self.tile_index_hash = {_index = 0}
-        self.tiles = ffi.new("int[?]",count,0)
+        self.tiles = carray(CARRAY_TYPE_UINT32,count,0)
         self.canvas = love.graphics.newCanvas(canvas_width,canvas_height)
         self._draw_buffer = {}
 

@@ -1,13 +1,24 @@
-local x = 100
+local a = {
+    arr = {1,2,3,4,5,6}
+}
 
-function a(x)
-    print("aaaa",x,_G)
+function a.iter(self,i)
+    i = i + 1
+    if i > #self.arr then return nil end
+    return i,self.arr[i]
 end
 
-function b(x)
-    a(100)
+function a:items()
+    return self.iter,self,-1
 end
 
-local d = string.dump(b)
+setmetatable(a,a)
 
-load(d)()
+-- 1,x = iter(self,0)
+-- 2,x = iter(self,1)
+-- 3,x = iter(self,2)
+-- nil = iter(self,2)
+
+for i,v in a:items() do
+    print("xxx",i,v)
+end

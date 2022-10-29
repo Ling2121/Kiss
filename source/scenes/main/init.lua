@@ -129,19 +129,54 @@ local Debug = core.EntityCountructor("RandomColorBox",{
 local sandbox = Sandbox()
 
 function sandbox:load(args)
-    core.Thread:createTask("load_file",
-    function()
-        print("loading")
-        local file = love.filesystem.newFile("icon.png")
-        file:open("r")
-        file:read()
-        return file
-    end,
-    function(file)
-        print("read :",file:getSize())
-    end)
+    -- core.Thread:createTask("load_file",
+    -- function()
+    --     print("loading")
+    --     local file = love.filesystem.newFile("icon.png")
+    --     file:open("r")
+    --     file:read()
+    --     return file
+    -- end,
+    -- function(file)
+    --     print("read :",file:getSize())
+    -- end)
 
-    core.Thread:startTask("load_file")
+    -- core.Thread:startTask("load_file")
+
+    local blobwriter = require"library/moonblob/BlobWriter"
+    local blobreader = require"library/moonblob/BlobReader"
+    local carray = require"source/core/base/carray"
+
+    local arr = carray(CARRAY_TYPE_UINT32,5,0)
+
+    for i,v in ipairs(arr) do
+        print(i,v)
+    end
+    
+
+    local f = blobwriter()
+    f:u32(2333)
+    f:f32(2333.233)
+    f:string("hello world\n")
+    f:array('u8',{1,2,3,4,5,6,7,8})
+
+    local f1 = love.filesystem.newFile("f.dat")
+    f1:open("w")
+    f1:write(f:tostring())
+    f1:close();
+
+    f1 = love.filesystem.newFile("f.dat")
+    f1:open("r")
+
+    local r = blobreader(f1:read())
+
+    print(r:u32())
+    print(r:f32())
+    print(r:string())
+    print(r:array('u8'))
+
+    f1:close();
+
 
     -- love.math.setRandomSeed(2333)
 
