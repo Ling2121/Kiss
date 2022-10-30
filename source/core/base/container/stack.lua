@@ -32,7 +32,7 @@ return function()
 
     function self:iter(i)
         i = i + 1
-        if i >= self.count then return nil end
+        if i > self.count then return nil end
         return i,self[i]
     end
 
