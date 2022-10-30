@@ -11,10 +11,10 @@ local function iter(self,i)
     return i,self.arr[i]
 end
 
-return function(type,len,init_value)
+return function(dtype,len,init_value)
     local self = {
         __carray__ = true;
-        type = type,
+        type = dtype,
         _lenght = len;
         array = nil,
     }
@@ -46,15 +46,15 @@ return function(type,len,init_value)
         return false
     end
 
-    if type == CARRAY_TYPE_BYTE then
+    if dtype == CARRAY_TYPE_BYTE then
         self.array = ffi.new('unsigned char[?]',len,init_value)
     end
 
-    if type == CARRAY_TYPE_INT32 then
+    if dtype == CARRAY_TYPE_INT32 then
         self.array = ffi.new('int32_t[?]',len,init_value)
     end
 
-    if type == CARRAY_TYPE_UINT32 then
+    if dtype == CARRAY_TYPE_UINT32 then
         self.array = ffi.new('uint32_t[?]',len,init_value)
     end
 
