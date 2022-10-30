@@ -24,12 +24,12 @@ return function()
 
     function self:insert(i,v)
         self.count = self.count + 1
-        table.insert(i,v)
+        table.insert(self,i,v)
     end
 
     function self:remove(i)
         if self.count <= 0 then return end
-        local rm = table.remove(i)
+        local rm = table.remove(self,i)
         self.count = self.count - 1
         return rm
     end
@@ -42,7 +42,7 @@ return function()
 
     function self:iter(i)
         i = i + 1
-        if i >= self.count then return nil end
+        if i > self.count then return nil end
         return i,self[i]
     end
 
