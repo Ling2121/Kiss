@@ -39,11 +39,14 @@ return function(t)
     end
     
     function dict:__newindex(k,v)
-        if self.table[k] == nil then
-            self.table[k] = v
-            if v == nil then
+        if v == nil then
+            if self.table[k] ~= nil then
+                self.table[k] = nil
                 self._count = self._count - 1
-            else
+            end
+        else
+            if self.table[k] == nil then
+                self.table[k] = v
                 self._count = self._count + 1
             end
         end
