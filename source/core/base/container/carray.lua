@@ -19,7 +19,7 @@ return function(dtype,len,init_value)
         array = nil,
     }
 
-    function self:__len()
+    function self:lenght()
         return self._lenght
     end
 
@@ -58,7 +58,7 @@ return function(dtype,len,init_value)
         self.array = ffi.new('uint32_t[?]',len,init_value)
     end
 
-    function self:items()
+    function self:__ipairs()
         return iter,self,-1
     end
 

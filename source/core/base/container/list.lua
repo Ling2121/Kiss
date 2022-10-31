@@ -1,11 +1,7 @@
 local list = {
     __list__ = true,
-    count = 0,
+    _count = 0,
 }
-
-function list:__len()
-    return self.count
-end
 
 function list:has(v)
     for i,item in ipairs(self) do
@@ -17,35 +13,42 @@ function list:has(v)
 end
 
 function list:add(v)
-    self.count = self.count + 1
+    self._count = self._count + 1
     table.insert(self,v)
 end
 
 function list:insert(i,v)
-    self.count = self.count + 1
+    self._count = self._count + 1
     table.insert(self,i,v)
 end
 
 function list:remove(i)
-    if self.count <= 0 then return end
+    if self._count <= 0 then return end
     local rm = table.remove(self,i)
-    self.count = self.count - 1
+    self._count = self._count - 1
     return rm
 end
 
 function list:removeBack()
-    if self.count <= 0 then return end
-    self[self.count] = nil
-    self.count = self.count - 1
+    if self._count <= 0 then return end
+    self[self._count] = nil
+    self._count = self._count - 1
 end
 
 function list:iter(i)
     i = i + 1
-    if i > self.count then return nil end
     return i,self[i]
 end
 
-function list:items()
+function list:count()
+    return self._count
+end
+
+function list:__len()
+    return self._count
+end
+
+function list:__ipairs()
     return self.iter,self,0
 end
 
