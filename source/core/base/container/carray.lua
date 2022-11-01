@@ -8,10 +8,11 @@ CARRAY_TYPE_UINT32 = 3
 local function iter(self,i)
     i = i + 1
     if i >= self._lenght then return nil end
-    return i,self.arr[i]
+    return i,self.array[i]
 end
 
 return function(dtype,len,init_value)
+    init_value = init_value or 0
     local self = {
         __carray__ = true;
         type = dtype,
@@ -20,6 +21,10 @@ return function(dtype,len,init_value)
     }
 
     function self:lenght()
+        return self._lenght
+    end
+
+    function self:__len()
         return self._lenght
     end
 
@@ -33,7 +38,6 @@ return function(dtype,len,init_value)
     function self:__index(k)
         if type(k) ~= 'number' then return end
         if k < 0 or k >= self._lenght then return end
-
         return self.array[k]
     end
 
